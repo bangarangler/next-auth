@@ -14,5 +14,7 @@ export default function Profile() {
 
   if (!session) return <UnauthenticatedComponent />;
 
+  console.log("session.user from Profile", session.user);
+
   return <AuthenticatedComponent user={session.user} />;
 }

@@ -41,6 +41,45 @@ const options = {
   session: {
     jwt: true,
     maxAge: 30 * 24 * 60 * 60, // 30 days
+    secret: process.env.NEXTAUTH_SECRET,
+  },
+  callbacks: {
+    signIn: async (user, account, metadata) => {
+      // console.log("account", account);
+      // user.accessToken = "FAKE_TOKEN";
+      // return true;
+      if (account.provider === "github") {
+        user.accessToken = account.accessToken;
+        console.log("user from signin", user);
+        return user;
+      }
+      return true;
+      // return Promise.resolve(true);
+    },
+    jwt: async (token, user) => {
+      // console.log("jwt cb running");
+      console.log("token jwt cb", token);
+      if (user) {
+        // console.log("user jwt cb before......", user);
+        user.accessToken = token.accessToken;
+        // console.log("user jwt cb after......", user);
+        console.log("token........ before", token);
+        token = { accessToken: user, ...token };
+        console.log("token........ after", token);
+      }
+      console.log("token", token);
+      return token;
+      // return Promise.resolve(token, user, account, profile, isNewUser);
+    },
+    session: async (session, user) => {
+      // console.log("session sess cb", session);
+      // console.log("user sess cb", user);
+      // session.user = user;
+      session.accessToken = user.accessToken;
+      console.log("session from sess cb", session);
+      return session;
+      // return Promise.resolve(session, user);
+    },
   },
 };
 

@@ -9,12 +9,24 @@ export default function Home() {
     return <p>Loading...</p>;
   }
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    signIn();
+  };
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    signOut();
+  };
+
+  console.log("SESSION", session);
+
   return (
     <div className={styles.container}>
       {!session && (
         <div>
           Not Signed in <br />
-          <button onClick={signIn}>Sign in</button>
+          <button onClick={handleLogin}>Sign in</button>
         </div>
       )}
       {session && (
@@ -31,7 +43,7 @@ export default function Home() {
                 alt={session.user.name ?? session.user.email}
               />
             )}
-            <button onClick={signOut}>Sign out</button>
+            <button onClick={handleLogout}>Sign out</button>
           </>
 
           <main className={styles.main}></main>

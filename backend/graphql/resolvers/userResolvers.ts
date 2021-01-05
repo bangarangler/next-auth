@@ -46,9 +46,11 @@ export const userResolvers: Resolvers = {
       _: any,
       __: any,
       // { req, res, db, pubsub }: ServerContext
-      { db, pubsub }: ServerContext
+      { req, db, pubsub }: ServerContext
     ): Promise<MeResponse> => {
+      console.log("me route hit");
       try {
+        console.log("req", req.headers);
         // console.log("req.session.userId :>> ", req.session.userId);
         // if (!req.session.userId) throw "UNAUTHORIZED";
         // if (!req.session.userId) return res.status(401);
