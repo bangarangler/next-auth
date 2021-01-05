@@ -27,12 +27,20 @@ const options = {
       },
       from: process.env.EMAIL_FROM,
     }),
+    Providers.GitHub({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
   ],
   database: {
     type: "mongodb",
     useNewUrlParser: true,
     useUnifiedTopology: true,
     url: process.env.DATABASE_URL,
+  },
+  session: {
+    jwt: true,
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
 };
 
