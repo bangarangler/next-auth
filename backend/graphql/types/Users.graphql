@@ -1,0 +1,65 @@
+# type Tokens {
+#   accessToken: String
+#   refreshToken: String
+# }
+
+type User {
+  _id: ID!
+  username: String!
+  email: String!
+  tokenVersion: Int
+}
+
+input UserLoginInput {
+  username: String!
+  password: String!
+}
+
+input UserRegisterInput {
+  username: String!
+  password: String!
+  email: String!
+  confirmPassword: String!
+}
+
+type LoginResponse {
+  error: GeneralError
+  errors: [InputError]
+  user: User
+  # tokens: Tokens
+}
+
+type RegisterResponse {
+  error: GeneralError
+  errors: [InputError]
+  user: User
+  # tokens: Tokens
+}
+
+type MeResponse {
+  error: GeneralError
+  user: User
+}
+
+type Query {
+  loggedInUser: User
+  me: MeResponse!
+}
+
+input ChangePasswordInput {
+  password: String!
+  confirmPassword: String!
+  accessToken: String!
+}
+
+type Mutation {
+  register(input: UserRegisterInput!): RegisterResponse!
+  login(input: UserLoginInput!): LoginResponse!
+  logout: Boolean
+  forgotPassword(email: String!): Boolean!
+  changePassword(options: ChangePasswordInput!): LoginResponse!
+}
+
+type Subscription {
+  somethingChanged: String
+}
