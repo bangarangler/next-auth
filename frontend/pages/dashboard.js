@@ -4,7 +4,7 @@ export default function Dashboard({ user }) {
   return (
     <div>
       <h1>Dashboard</h1>
-      <p>Welcome {user.email}</p>
+      <p>Welcome {user.name ?? user.email}</p>
     </div>
   );
 }

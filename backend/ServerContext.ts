@@ -10,4 +10,5 @@ export interface ServerContext {
   db: any;
   connection: any;
   redis: any;
+  pubsub?: any;
 }

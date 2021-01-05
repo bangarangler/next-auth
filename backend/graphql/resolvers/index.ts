@@ -4,7 +4,6 @@
 import { mergeResolvers } from "@graphql-tools/merge";
 
 import { userResolvers } from "./userResolvers";
-import { postResolvers } from "./postResolvers";
-const combinedResolvers = [userResolvers, postResolvers];
+const combinedResolvers = [userResolvers];
 
 export const resolvers = mergeResolvers(combinedResolvers as []);

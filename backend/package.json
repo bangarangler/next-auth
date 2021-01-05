@@ -1,5 +1,5 @@
 {
-  "name": "cookie-jwt-auth",
+  "name": "next-auth-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

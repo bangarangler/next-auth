@@ -9,7 +9,6 @@ generates:
       - "typescript"
       - "typescript-operations"
       - "typescript-resolvers"
-      # - "typescript-react-apollo"
       - "typescript-mongodb"
       - "fragment-matcher"
       - "typescript-document-nodes"

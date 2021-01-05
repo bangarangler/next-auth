@@ -21,11 +21,6 @@ import {
 import { typeDefs } from "./graphql/typeDefs";
 import { resolvers } from "./graphql/resolvers";
 import { ServerContext } from "./ServerContext";
-import { validateTokensMiddleware } from "./middleware/validateTokensMiddleware";
-import {
-  validateAccessToken,
-  // validateRefreshToken,
-} from "./auth/validateTokens";
 import { s2mConverter } from "./utils/timeConverter";
 
 const { MongoClient } = mongodb;
@@ -100,18 +95,18 @@ const main = async () => {
         }
         return { req, res, db, redis, pubsub };
       },
-      subscriptions: {
-        onConnect: (cParams: any, websocket) => {
-          console.log("cParams :>> ", cParams);
-          console.log("websocket :>> ", websocket);
-          const accessToken = cParams.accessToken;
-          const user = validateAccessToken(accessToken);
-          if (!user) {
-            throw new Error("Not Authed");
-          }
-          return { userId: user.userId };
-        },
-      },
+      // subscriptions: {
+      //   onConnect: (cParams: any, websocket) => {
+      //     console.log("cParams :>> ", cParams);
+      //     console.log("websocket :>> ", websocket);
+      //     const accessToken = cParams.accessToken;
+      //     const user = validateAccessToken(accessToken);
+      //     if (!user) {
+      //       throw new Error("Not Authed");
+      //     }
+      //     return { userId: user.userId };
+      //   },
+      // },
     });
 
     server.applyMiddleware({ app, cors: false });
