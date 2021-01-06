@@ -10,7 +10,7 @@ type MeResponse {
 }
 
 type Query {
-  me: MeResponse!
+  me(email: String): MeResponse!
 }
 
 type Mutation {

@@ -44,13 +44,18 @@ export const userResolvers: Resolvers = {
     // me: async (_, __, { req, db, pubsub }): Promise<User | null> => {
     me: async (
       _: any,
-      __: any,
+      { email }: any,
       // { req, res, db, pubsub }: ServerContext
       { req, db, pubsub }: ServerContext
     ): Promise<MeResponse> => {
       console.log("me route hit");
       try {
-        console.log("req", req.headers);
+        // will need this to check if we have Bearer
+        // console.log("req", req.headers);
+        // if email account / legacy signin
+        console.log("req", req);
+        console.log("email", email);
+
         // console.log("req.session.userId :>> ", req.session.userId);
         // if (!req.session.userId) throw "UNAUTHORIZED";
         // if (!req.session.userId) return res.status(401);
