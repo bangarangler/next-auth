@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 const UnauthenticatedComponent = dynamic(
   () => import("../../components/unauthenticated")
 );
-const AddTodoComponent = dynamic(() => import("../../components/AddTodo.js"));
+const AddTodoComponent = dynamic(() => import("../../components/AddTodo"));
 
 export default function Todos() {
   const [session, loading] = useSession();

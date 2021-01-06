@@ -3,10 +3,12 @@ import React, { useReducer } from "react";
 import { useMutation } from "react-query";
 import { useSession } from "next-auth/client";
 import { gql_endpoint } from "../constants";
-import { addTodo } from "../react-query-hooks/useAddTodo";
+// works but not what we want
+// import { addTodo } from "../react-query-hooks/useAddTodo";
 import {
   useAddTodoMutation,
   AddTodoDocument,
+  MutationAddTodoArgs,
   // AddTodoMutationVariables,
 } from "../generated/graphql.tsx";
 
@@ -35,17 +37,16 @@ export default function AddTodo() {
   const [state, dispatch] = useReducer(reducer, initState);
   const { todoTitle, todoBody } = state;
 
-  // const dataSource = {
-  //   endpoint: gql_endpoint,
-  //   fetchParams: {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     credintials: "include",
-  //   },
-  // };
-  //
+  const dataSource = {
+    endpoint: gql_endpoint,
+    fetchParams: {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credintials: "include",
+    },
+  };
 
   if (loading) return <p>loading session...</p>;
 
@@ -53,18 +54,21 @@ export default function AddTodo() {
     options: { title: todoTitle, body: todoBody },
   };
 
-  console.log("session", session);
+  const { mutate, error, data } = useAddTodoMutation(dataSource, vars);
+
+  if (error) {
+    console.log("error", error);
+    return <div>Error Adding Todo</div>;
+  }
+
+  // console.log("data new", data);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("handleSubmit running.");
-    console.log({ todoTitle });
-    console.log({ todoBody });
-    const data = await addTodo(vars);
-    console.log("data from handleSubmit", data.todo);
-    // mutate(AddTodoDocument, {
-    //   variables: { options: { title: todoTitle, body: todoBody } },
-    // });
+    mutate(vars);
+    // Below Works but not what we want
+    // const data = await addTodo(vars);
+    // console.log("data from handleSubmit", data.todo);
   };
 
   return (
@@ -88,6 +92,7 @@ export default function AddTodo() {
         }
       />
       <button>Add Todo</button>
+      <pre>added todo: {JSON.stringify(data?.addTodo?.todo, null, 2)}</pre>
     </form>
   );
 }
