@@ -19,10 +19,10 @@ input AddTodoInput {
   body: String!
 }
 
-# type Query {
-#   todo(todoId: String!): TodoResponse!
-#   todos: TodosRes!
-# }
+type Query {
+  #   todo(todoId: String!): TodoResponse!
+  todos: TodosRes!
+}
 
 type Mutation {
   addTodo(options: AddTodoInput!): TodoRes!

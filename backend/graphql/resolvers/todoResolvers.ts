@@ -4,17 +4,41 @@ import {
   MutationAddTodoArgs,
   MutationResolvers,
   TodoRes,
-  // QueryResolvers,
+  TodosRes,
+  QueryResolvers,
   // SubscriptionResolvers,
 } from "../../codeGenBE";
 
 interface Resolvers {
-  // Query: QueryResolvers;
+  Query: QueryResolvers;
   Mutation: MutationResolvers;
   // Subscription: SubscriptionResolvers;
 }
 
 export const todoResolvers: Resolvers = {
+  Query: {
+    todos: async (_, __, { db }, ___): Promise<TodosRes> => {
+      try {
+        const todosRes = await db
+          .db("jwtCookie")
+          .collection("todos")
+          .find({})
+          .toArray();
+        console.log("todosRes", todosRes);
+        if (!todosRes) {
+          return {
+            error: { message: "Error Fetching Todos" },
+          };
+        }
+        return { todos: todosRes };
+      } catch (err) {
+        console.log("err", err);
+        return {
+          error: { message: "Something went wrong Internally" },
+        };
+      }
+    },
+  },
   Mutation: {
     addTodo: async (
       _,
