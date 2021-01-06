@@ -1,20 +1,23 @@
-import { useQuery } from "react-query";
-// import { GraphQLClient, request } from "graphql-request";
-import { GraphQLClient } from "graphql-request";
+import { gql_endpoint } from "../constants";
 
-export const useGQLQuery = (key, query, variables, config = {}) => {
-  const endpoint = "http://localhost:4000/graphql";
-  const headers = {
+export async function fetchData(query, { variables } = {}) {
+  const res = await fetch(gql_endpoint, {
+    method: "POST",
     headers: {
-      authorization: `Bearer `,
+      "Content-Type": "application/json",
     },
-  };
+    credentials: "include",
+    body: JSON.stringify({
+      query,
+      variables,
+    }),
+  });
 
-  const graphQLClient = new GraphQLClient(endpoint, headers);
+  const json = await res.json();
+  if (json.errors) {
+    const { message } = json.errors[0] || "Error..";
+    throw new Error(message);
+  }
 
-  const fetchData = async () => await graphQLClient.request(query, variables);
-
-  // const fetchData = async () => await request(endpoint, query, variables)
-
-  return useQuery(key, fetchData, config);
-};
+  return json.data;
+}

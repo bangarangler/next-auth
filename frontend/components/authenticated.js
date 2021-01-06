@@ -2,7 +2,7 @@ import { signOut } from "next-auth/client";
 // import axios from "axios";
 import { useSession } from "next-auth/client";
 import { gql_endpoint } from "../constants.ts";
-import { MeDocument, useMeQuery } from "../generated/graphql.tsx";
+import { useMeQuery } from "../generated/graphql.tsx";
 
 // const fetchD = async () => {
 //   const { data } = await axios.get("http://localhost:3000/api/data");
@@ -10,20 +10,9 @@ import { MeDocument, useMeQuery } from "../generated/graphql.tsx";
 //   return data;
 // };
 
-export default function Authenticated({ user }) {
+export default function Authenticated() {
   const [session, loading] = useSession();
-  // const { data, error, isFetching } = useMeQuery({
-  //   endpoint: gql_endpoint,
-  //   fetchParams: {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     credintials: "include",
-  //   },
-  //   query: MeDocument,
-  //   variables: { email: "jack@test.com" },
-  // });
+
   const dataSource = {
     endpoint: gql_endpoint,
     fetchParams: {
@@ -52,12 +41,13 @@ export default function Authenticated({ user }) {
 
   if (data) {
     console.log("data from authenticated", data);
-    return <div>We have data</div>;
+    // return <div>We have data</div>;
   }
 
   if (loading) return <p>loading session...</p>;
 
   console.log("session", session);
+  const { username, email } = data.me.user;
 
   // const showM = (mData) => {
   //   console.log({ mData });
@@ -67,6 +57,9 @@ export default function Authenticated({ user }) {
   return (
     <div>
       {/* <p>You are authenticated {user.name ?? user.email}</p> */}
+      <p>
+        You are Authenticated {username} Email: {email}
+      </p>
       <button onClick={signOut}>Sign out</button>
       {/* <div> */}
       test
