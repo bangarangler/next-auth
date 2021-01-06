@@ -70,6 +70,17 @@ export type AddTodoInput = {
   body: Scalars['String'];
 };
 
+export type Query = {
+  __typename?: 'Query';
+  todos: TodosRes;
+  me: MeResponse;
+};
+
+
+export type QueryMeArgs = {
+  email?: Maybe<Scalars['String']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addTodo: TodoRes;
@@ -92,16 +103,6 @@ export type MeResponse = {
   __typename?: 'MeResponse';
   error?: Maybe<GeneralError>;
   user?: Maybe<User>;
-};
-
-export type Query = {
-  __typename?: 'Query';
-  me: MeResponse;
-};
-
-
-export type QueryMeArgs = {
-  email?: Maybe<Scalars['String']>;
 };
 
 export type Subscription = {
@@ -160,6 +161,23 @@ export type MeQuery = (
       { __typename?: 'User' }
       & UserInfoFragment
     )> }
+  ) }
+);
+
+export type TodosQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TodosQuery = (
+  { __typename?: 'Query' }
+  & { todos: (
+    { __typename?: 'TodosRes' }
+    & { error?: Maybe<(
+      { __typename?: 'GeneralError' }
+      & Pick<GeneralError, 'message'>
+    )>, todos?: Maybe<Array<Maybe<(
+      { __typename?: 'Todo' }
+      & TodoDataFragment
+    )>>> }
   ) }
 );
 
@@ -224,5 +242,30 @@ export const useMeQuery = <
     useQuery<MeQuery, TError, TData>(
       ['Me', variables],
       fetcher<MeQuery, MeQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, MeDocument, variables),
+      options
+    );
+export const TodosDocument = `
+    query Todos {
+  todos {
+    error {
+      message
+    }
+    todos {
+      ...TodoData
+    }
+  }
+}
+    ${TodoDataFragmentDoc}`;
+export const useTodosQuery = <
+      TData = TodosQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit }, 
+      variables?: TodosQueryVariables, 
+      options?: UseQueryOptions<TodosQuery, TError, TData>
+    ) => 
+    useQuery<TodosQuery, TError, TData>(
+      ['Todos', variables],
+      fetcher<TodosQuery, TodosQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, TodosDocument, variables),
       options
     );

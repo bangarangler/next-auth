@@ -1,8 +1,8 @@
 // import axios from "axios";
 import React, { useReducer } from "react";
-import { useMutation } from "react-query";
 import { useSession } from "next-auth/client";
 import { gql_endpoint } from "../constants";
+import { useQueryClient } from "react-query";
 // works but not what we want
 // import { addTodo } from "../react-query-hooks/useAddTodo";
 import {
@@ -33,6 +33,7 @@ const initState = {
 };
 
 export default function AddTodo() {
+  const queryClient = useQueryClient();
   const [session, loading] = useSession();
   const [state, dispatch] = useReducer(reducer, initState);
   const { todoTitle, todoBody } = state;
@@ -63,12 +64,19 @@ export default function AddTodo() {
 
   // console.log("data new", data);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    mutate(vars);
+    // mutate(vars);
+    mutate(vars, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("Todos");
+      },
+    });
+    console.log("queryClient", queryClient);
+    // queryClient.invalidateQueries("todos");
     // Below Works but not what we want
     // const data = await addTodo(vars);
-    // console.log("data from handleSubmit", data.todo);
+    // console.log("data from handleSubmit", data);
   };
 
   return (

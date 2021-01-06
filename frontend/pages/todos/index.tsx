@@ -5,6 +5,7 @@ const UnauthenticatedComponent = dynamic(
   () => import("../../components/unauthenticated")
 );
 const AddTodoComponent = dynamic(() => import("../../components/AddTodo"));
+const TodosComponent = dynamic(() => import("../../components/Todos"));
 
 export default function Todos() {
   const [session, loading] = useSession();
@@ -14,5 +15,10 @@ export default function Todos() {
 
   console.log("session.user from Profile", session.user);
 
-  return <AddTodoComponent />;
+  return (
+    <>
+      <TodosComponent />
+      <AddTodoComponent />
+    </>
+  );
 }
