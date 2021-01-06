@@ -1,5 +1,5 @@
-query Me {
-  me {
+query Me($email: String) {
+  me(email: $email) {
     error {
       message
     }

@@ -1,5 +1,8 @@
 import { signIn, signOut, useSession } from "next-auth/client";
+import { MeDocument, useMeQuery } from "../generated/graphql.tsx";
+import { gql_endpoint } from "../constants.ts";
 import Head from "next/head";
+import Link from "next/link";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -43,6 +46,8 @@ export default function Home() {
                 alt={session.user.name ?? session.user.email}
               />
             )}
+            <Link href="/profile">Profile</Link>
+            <Link href="/dashboard">Dashboard</Link>
             <button onClick={handleLogout}>Sign out</button>
           </>
 

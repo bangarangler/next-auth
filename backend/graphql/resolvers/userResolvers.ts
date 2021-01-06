@@ -7,7 +7,7 @@ import {
   MeResponse,
   MutationResolvers,
   QueryResolvers,
-  MeQueryArgs,
+  QueryMeArgs,
   // RegisterResponse,
   SubscriptionResolvers,
   // Result,
@@ -45,7 +45,7 @@ export const userResolvers: Resolvers = {
     // me: async (_, __, { req, db, pubsub }): Promise<User | null> => {
     me: async (
       _: any,
-      { email }: MeQueryArgs,
+      args: QueryMeArgs,
       // { req, res, db, pubsub }: ServerContext
       { req, db, pubsub }: ServerContext
     ): Promise<MeResponse> => {
@@ -55,7 +55,7 @@ export const userResolvers: Resolvers = {
         // console.log("req", req.headers);
         // if email account / legacy signin
         console.log("req", req);
-        console.log("email", email);
+        console.log("args", args);
 
         // console.log("req.session.userId :>> ", req.session.userId);
         // if (!req.session.userId) throw "UNAUTHORIZED";
