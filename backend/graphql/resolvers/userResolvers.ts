@@ -7,6 +7,7 @@ import {
   MeResponse,
   MutationResolvers,
   QueryResolvers,
+  MeQueryArgs,
   // RegisterResponse,
   SubscriptionResolvers,
   // Result,
@@ -44,7 +45,7 @@ export const userResolvers: Resolvers = {
     // me: async (_, __, { req, db, pubsub }): Promise<User | null> => {
     me: async (
       _: any,
-      { email }: any,
+      { email }: MeQueryArgs,
       // { req, res, db, pubsub }: ServerContext
       { req, db, pubsub }: ServerContext
     ): Promise<MeResponse> => {
