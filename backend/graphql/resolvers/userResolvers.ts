@@ -1,26 +1,13 @@
 // import { ObjectID } from "mongodb";
 import { ServerContext } from "../../ServerContext";
-// import bcrypt from "bcryptjs";
-// import { verify, sign } from "jsonwebtoken";
 import {
-  // LoginResponse,
   MeResponse,
   MutationResolvers,
   QueryResolvers,
   QueryMeArgs,
-  // RegisterResponse,
   SubscriptionResolvers,
-  // Result,
-  // Tokens,
-  // User,
+  QueryUserExistArgs,
 } from "../../codeGenBE";
-// import { setTokens } from "../../auth/authTokens";
-// import { setTokens } from "../../auth/authTokens";
-// import { loginValidation } from "../../utils/loginValidation";
-// import { registerValidation } from "../../utils/registerValidation";
-// import { COOKIE_NAME } from "../../constants";
-// import { sendEmail } from "../../utils/sendEmail";
-// import { s2mConverter } from "../../utils/timeConverter";
 
 interface Resolvers {
   Query: QueryResolvers;
@@ -40,11 +27,6 @@ export const userResolvers: Resolvers = {
     ): Promise<MeResponse> => {
       console.log("me route hit");
       try {
-        // will need this to check if we have Bearer
-        // console.log("req", req.headers);
-
-        // if email account / legacy signin
-
         if (!email) {
           return {
             error: { message: "Sorry No Existing User with that Email" },
@@ -61,6 +43,27 @@ export const userResolvers: Resolvers = {
         return { user };
       } catch (err) {
         return { error: { message: "Something went wrong Internally" } };
+      }
+    },
+    userExist: async (
+      _,
+      { email }: QueryUserExistArgs,
+      { db }: ServerContext
+    ): Promise<boolean> => {
+      try {
+        const userExist = await db
+          .db("jwtCookie")
+          .collection("users")
+          .findOne({ email });
+        // console.log("userExist", userExist);
+        if (!userExist) {
+          return false;
+        } else {
+          return true;
+        }
+      } catch (err) {
+        console.log(err);
+        return false;
       }
     },
   },

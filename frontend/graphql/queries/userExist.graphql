@@ -1,0 +1,3 @@
+query UserExist($email: String!) {
+  userExist(email: $email)
+}

@@ -74,10 +74,16 @@ export type Query = {
   __typename?: 'Query';
   todos: TodosRes;
   me: MeResponse;
+  userExist: Scalars['Boolean'];
 };
 
 
 export type QueryMeArgs = {
+  email?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryUserExistArgs = {
   email?: Maybe<Scalars['String']>;
 };
 
@@ -181,6 +187,16 @@ export type TodosQuery = (
   ) }
 );
 
+export type UserExistQueryVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type UserExistQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'userExist'>
+);
+
 export const TodoDataFragmentDoc = `
     fragment TodoData on Todo {
   _id
@@ -267,5 +283,23 @@ export const useTodosQuery = <
     useQuery<TodosQuery, TError, TData>(
       ['Todos', variables],
       fetcher<TodosQuery, TodosQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, TodosDocument, variables),
+      options
+    );
+export const UserExistDocument = `
+    query UserExist($email: String!) {
+  userExist(email: $email)
+}
+    `;
+export const useUserExistQuery = <
+      TData = UserExistQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit }, 
+      variables: UserExistQueryVariables, 
+      options?: UseQueryOptions<UserExistQuery, TError, TData>
+    ) => 
+    useQuery<UserExistQuery, TError, TData>(
+      ['UserExist', variables],
+      fetcher<UserExistQuery, UserExistQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UserExistDocument, variables),
       options
     );

@@ -11,6 +11,7 @@ type MeResponse {
 
 type Query {
   me(email: String): MeResponse!
+  userExist(email: String): Boolean!
 }
 
 type Mutation {

@@ -1,6 +1,5 @@
+import React, { useEffect } from "react";
 import { signIn, signOut, useSession } from "next-auth/client";
-import { MeDocument, useMeQuery } from "../generated/graphql.tsx";
-import { gql_endpoint } from "../constants.ts";
 import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";

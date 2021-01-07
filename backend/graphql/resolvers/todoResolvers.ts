@@ -24,7 +24,6 @@ export const todoResolvers: Resolvers = {
           .collection("todos")
           .find({})
           .toArray();
-        console.log("todosRes", todosRes);
         if (!todosRes) {
           return {
             error: { message: "Error Fetching Todos" },
@@ -46,10 +45,7 @@ export const todoResolvers: Resolvers = {
       { db }: ServerContext,
       ____
     ): Promise<TodoRes> => {
-      console.log("AddTodo Route hit!");
       const { title, body } = options;
-      console.log({ title });
-      console.log({ body });
       try {
         if (!title) {
           return {

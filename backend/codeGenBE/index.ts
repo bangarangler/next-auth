@@ -61,10 +61,16 @@ export type Query = {
   __typename?: 'Query';
   todos: TodosRes;
   me: MeResponse;
+  userExist: Scalars['Boolean'];
 };
 
 
 export type QueryMeArgs = {
+  email?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryUserExistArgs = {
   email?: Maybe<Scalars['String']>;
 };
 
@@ -189,12 +195,12 @@ export type ResolversTypes = {
   TodosRes: ResolverTypeWrapper<TodosRes>;
   AddTodoInput: AddTodoInput;
   Query: ResolverTypeWrapper<{}>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Mutation: ResolverTypeWrapper<{}>;
   User: ResolverTypeWrapper<User>;
   MeResponse: ResolverTypeWrapper<MeResponse>;
   Subscription: ResolverTypeWrapper<{}>;
   AdditionalEntityFields: AdditionalEntityFields;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -208,12 +214,12 @@ export type ResolversParentTypes = {
   TodosRes: TodosRes;
   AddTodoInput: AddTodoInput;
   Query: {};
+  Boolean: Scalars['Boolean'];
   Mutation: {};
   User: User;
   MeResponse: MeResponse;
   Subscription: {};
   AdditionalEntityFields: AdditionalEntityFields;
-  Boolean: Scalars['Boolean'];
 };
 
 export type UnionDirectiveArgs = {   discriminatorField?: Maybe<Scalars['String']>;
@@ -284,6 +290,7 @@ export type TodosResResolvers<ContextType = any, ParentType extends ResolversPar
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   todos?: Resolver<ResolversTypes['TodosRes'], ParentType, ContextType>;
   me?: Resolver<ResolversTypes['MeResponse'], ParentType, ContextType, RequireFields<QueryMeArgs, never>>;
+  userExist?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryUserExistArgs, never>>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
